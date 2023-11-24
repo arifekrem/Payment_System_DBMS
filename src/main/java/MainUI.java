@@ -1,12 +1,16 @@
+// Group 6, Topic 26 - Payroll Management DBMS
+// Alden Shin-Culhane 501036054
+
 package src.main.java;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class MainUI {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Database Application");
-        frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 300);
 
         JPanel panel = new JPanel();
         frame.add(panel);
@@ -16,31 +20,59 @@ public class MainUI {
     }
 
     private static void placeComponents(JPanel panel) {
-        panel.setLayout(null);
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
         JButton createButton = new JButton("Create Tables");
-        createButton.setBounds(10, 20, 160, 25);
-        createButton.addActionListener(e -> DatabaseOperations.createTables());
-        panel.add(createButton);
+        createButton.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(null,
+                    "Are you sure you want to create all tables?",
+                    "Confirm Create",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                DatabaseOperations.createTables();
+            }
+        });
+        panel.add(createButton, gbc);
 
         JButton dropButton = new JButton("Drop Tables");
-        dropButton.setBounds(10, 60, 160, 25);
-        dropButton.addActionListener(e -> DatabaseOperations.dropTables());
-        panel.add(dropButton);
+        dropButton.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(null,
+                    "Are you sure you want to drop all tables?",
+                    "Confirm Drop",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                DatabaseOperations.dropTables();
+            }
+        });
+        panel.add(dropButton, gbc);
 
         JButton populateButton = new JButton("Populate Tables");
-        populateButton.setBounds(10, 100, 160, 25);
-        populateButton.addActionListener(e -> DatabaseOperations.populateTables());
-        panel.add(populateButton);
+        populateButton.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(null,
+                    "Are you sure you want to populate all tables?",
+                    "Confirm Populate",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                DatabaseOperations.populateTables();
+            }
+        });
+        panel.add(populateButton, gbc);
 
         JButton queryButton = new JButton("Query Tables");
-        queryButton.setBounds(10, 140, 160, 25);
         queryButton.addActionListener(e -> DatabaseOperations.queryTables());
-        panel.add(queryButton);
+        panel.add(queryButton, gbc);
 
         JButton exitButton = new JButton("Exit");
-        exitButton.setBounds(10, 180, 160, 25);
         exitButton.addActionListener(e -> System.exit(0));
-        panel.add(exitButton);
+        panel.add(exitButton, gbc);
     }
 }
